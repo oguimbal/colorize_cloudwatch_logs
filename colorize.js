@@ -334,14 +334,20 @@ function colorizeAnsi (elements) {
 }
 
 function getElements () {
-  let elements = document.getElementsByClassName('cwdb-ellipsis')
-  return [].slice.call(elements)
+  let iframe = document.getElementById('microConsole-Logs');
+  if (!iframe) {
+    return [];
+  }
+  let elements = iframe.contentDocument.getElementsByClassName('logs__log-events-table__cell'); //'awsui-table-row'
+  const ret = [].slice.call(elements)
+  return ret.map(x => x.childNodes[0]).filter(x => !!x);
 }
 
 function colorizeAll () {
   // console.time('cost-of-colorize')
   // console.time('cost-of-getting-elements')
   const elements = getElements()
+  console.log(elements);
   // console.timeEnd('cost-of-getting-elements')
 
   // console.time('cost-of-colorize-groups')
